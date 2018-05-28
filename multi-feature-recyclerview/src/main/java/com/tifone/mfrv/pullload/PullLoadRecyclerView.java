@@ -110,6 +110,8 @@ public class PullLoadRecyclerView extends WrapRecyclerView {
         // 默认的ViewCreator
         mLoadMoreCreator = new DefaultLoadMoreViewCreator();
         mPullRefreshCreator = new DefaultRefreshViewCreator();
+        // 默认的布局管理器
+        setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -231,18 +233,27 @@ public class PullLoadRecyclerView extends WrapRecyclerView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent e) {
-
+    public boolean onInterceptTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
+            // 当RecyclerView的Item有注册OnClick事件时，在onTouchEvent中不能正确得到ACTION_DOWN
             case MotionEvent.ACTION_DOWN:
                 if (mFingerDownY == -1) {
                     mFingerDownY = (int) e.getRawY();
                 }
                 break;
+        }
+        return super.onInterceptTouchEvent(e);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+
+        switch (e.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 // 获取手指拖拽的距离
                 int distanceY = (int) ((e.getRawY() - mFingerDownY) * mDragIndex);
                 logger("distanceY = " + distanceY);
+                logger("mFingerDownY = " + mFingerDownY);
                 // 上拉加载逻辑, 向上拖拽一定距离，释放后开始加载
                 if (distanceY < 0) {
                     if (isDragBehavior() && isLoadMoreAvailable()) {

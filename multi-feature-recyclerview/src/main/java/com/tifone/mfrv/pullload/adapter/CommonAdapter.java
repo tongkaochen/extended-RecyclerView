@@ -40,7 +40,12 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHo
     public void onBindViewHolder(@NonNull CommonViewHolder holder, int position) {
         convertContent(holder, mDataSet.get(position));
     }
-
+    public <T> T getItem(int position) {
+        return (T) mDataSet.get(position);
+    }
+    public List<T> getDataSet() {
+        return mDataSet;
+    }
     @Override
     public int getItemCount() {
         return mDataSet.size();

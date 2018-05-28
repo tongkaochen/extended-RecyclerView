@@ -3,8 +3,8 @@ apply plugin: 'com.android.library'
 ext {
     support_libs_version = "27.1.1"
     sdk_version = 27
-    version_code = 20180525
-    version_name = "0.0.1"
+    version_code = 20180528
+    version_name = "0.0.2"
 }
 
 android {

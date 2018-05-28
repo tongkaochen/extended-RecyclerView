@@ -1,6 +1,7 @@
 package com.tifone.mfrv.demo;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.tifone.mfrv.pullload.adapter.CommonViewHolder;
 import com.tifone.mfrv.pullload.adapter.MultiItemsAdapter;
@@ -14,6 +15,7 @@ public class MyMultiItemAdapter extends MultiItemsAdapter<String> {
 
     @Override
     public int setupItemViewType(int position) {
+        Log.e("tifone", "position = " + position);
         if (position % 2 == 0) {
             return VIEW_TYPE_TEXT;
         }

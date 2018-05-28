@@ -1,11 +1,15 @@
 package com.tifone.mfrv.demo;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tifone.mfrv.pullload.PullLoadRecyclerView;
 import com.tifone.mfrv.pullload.adapter.WrapHeaderFooterAdapter;
@@ -33,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
         mTestDataSet.add("111");
         mTestDataSet.add("abc");
         mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
+        mTestDataSet.add("222");
 
         mTestDataSet2 = new ArrayList<>();
         mTestDataSet2.add("123");
@@ -42,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         mTestDataSet2.add("abc");
         mTestDataSet2.add("867");
         //setupHeaderFooterRecyclerView();
-        setupPullLoadRecyclerView();
+        //setupPullLoadRecyclerView();
+        setupOriginRecyclerView();
     }
     private void setupHeaderFooterRecyclerView() {
         setContentView(R.layout.activity_main);
@@ -91,5 +105,52 @@ public class MainActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
+    }
+
+    private void setupOriginRecyclerView() {
+        setContentView(R.layout.activity_main_origin);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        MyAdapter adapter = new MyAdapter(mTestDataSet);
+        //MyMultiItemAdapter adapter = new MyMultiItemAdapter(this);
+        //adapter.setDataSet(mTestDataSet);
+        recyclerView.setAdapter(adapter);
+    }
+    class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+        List<String> mDataSet;
+        private MyAdapter(List<String> dataSet) {
+            mDataSet = dataSet;
+        }
+
+        @NonNull
+        @Override
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+            Log.e("tifone", "onBindViewHolder = " + position);
+            holder.textView.setText(mDataSet.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDataSet.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            Log.e("tifone", "position = " + position);
+            return super.getItemViewType(position);
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            private TextView textView;
+            public MyViewHolder(View itemView) {
+                super(itemView);
+                textView = itemView.findViewById(R.id.title);
+            }
+        }
     }
 }

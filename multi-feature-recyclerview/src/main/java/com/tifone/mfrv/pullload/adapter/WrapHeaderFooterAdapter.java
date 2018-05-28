@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,7 +119,7 @@ public class WrapHeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.V
             return mFooterViews.keyAt(position - getContentItemsSize() - getHeaderSize());
         }
         // 非Header和Footer，交给子Adapter处理
-        return mInnerAdapter.getItemViewType(position);
+        return mInnerAdapter.getItemViewType(position - getHeaderSize());
     }
 
     /**
@@ -136,18 +137,6 @@ public class WrapHeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.V
                     return isHeaderOrFooter ? layoutManager.getSpanCount() : 1;
                 }
             });
-        }
-    }
-
-    class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    class FooterViewHolder extends RecyclerView.ViewHolder {
-        public FooterViewHolder(View itemView) {
-            super(itemView);
         }
     }
 
@@ -174,6 +163,7 @@ public class WrapHeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         @Override
         public void onChanged() {
+            Log.e("tifone", "dataset changed");
             mWrapAdapter.notifyDataSetChanged();
         }
 
