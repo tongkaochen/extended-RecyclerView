@@ -148,6 +148,14 @@ public class PullLoadRecyclerView extends WrapRecyclerView {
     }
 
     /**
+     * 执行刷新动作
+     */
+    public void notifyDoRefresh() {
+        setPullRefreshState(REFRESH_STATE_REFRESHING);
+        doRefreshViewAnimator(mPullRefreshView.getLayoutParams().height, mRefreshViewHeight);
+    }
+
+    /**
      * 数据已加载
      */
     public void notifyLoadComplete() {

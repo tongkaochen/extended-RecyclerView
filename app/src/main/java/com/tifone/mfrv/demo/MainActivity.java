@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mPullLoadRecyclerView.notifyLoadComplete();
-                        adapter.addDataSet(mTestDataSet2);
+                        adapter.setDataSet(mTestDataSet2);
                     }
                 }, 2000);
             }
@@ -87,11 +87,19 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mPullLoadRecyclerView.notifyRefreshCompleted();
-                        adapter.addDataSet(mTestDataSet2);
+                        adapter.setDataSet(mTestDataSet2);
                     }
-                }, 1000);
+                }, 3000);
             }
         });
+        mPullLoadRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (adapter.getItemCount() == 0) {
+                    mPullLoadRecyclerView.notifyDoRefresh();
+                }
+            }
+        }, 3000);
     }
 
     private void setupOriginRecyclerView() {

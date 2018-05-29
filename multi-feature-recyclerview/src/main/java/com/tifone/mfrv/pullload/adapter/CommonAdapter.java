@@ -24,10 +24,12 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<CommonViewHo
     public void setDataSet(@NonNull List<T> dataSet) {
         mDataSet = dataSet;
         notifyDataSetChanged();
+        //dataSet.clear();
     }
     public void addDataSet(@NonNull List<T> dataSet) {
         mDataSet.addAll(dataSet);
         notifyDataSetChanged();
+        dataSet.clear();
     }
 
     @NonNull
