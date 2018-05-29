@@ -9,6 +9,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tifone.mfrv.pullload.creator.DefaultEmptyViewCreator;
+
 /**
  * 往已有的adapter中加入头部和尾部
  */
@@ -20,6 +22,7 @@ public class WrapHeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.V
     private SparseArray<View> mHeaderViews = new SparseArray<>();
     private SparseArray<View> mFooterViews = new SparseArray<>();
     private RecyclerView.AdapterDataObserver mDataObserver;
+    private View mEmptyViewView;
 
     public WrapHeaderFooterAdapter(@NonNull RecyclerView.Adapter adapter) {
         mInnerAdapter = adapter;
@@ -165,31 +168,51 @@ public class WrapHeaderFooterAdapter extends RecyclerView.Adapter<RecyclerView.V
         public void onChanged() {
             Log.e("tifone", "dataset changed");
             mWrapAdapter.notifyDataSetChanged();
+            checkIsEmpty();
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
             mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount);
+            checkIsEmpty();
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
             mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount, payload);
+            checkIsEmpty();
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             mWrapAdapter.notifyItemRangeInserted(positionStart, itemCount);
+            checkIsEmpty();
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             mWrapAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+            checkIsEmpty();
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             mWrapAdapter.notifyItemMoved(fromPosition, toPosition);
+            checkIsEmpty();
+        }
+    }
+    // 设置EmptyView
+    public void setEmptyView(View view) {
+        mEmptyViewView = view;
+    }
+    private void checkIsEmpty() {
+        if (mEmptyViewView == null || mInnerAdapter == null) {
+            return;
+        }
+        if (mInnerAdapter.getItemCount() == 0) {
+            mEmptyViewView.setVisibility(View.VISIBLE);
+        } else {
+            mEmptyViewView.setVisibility(View.GONE);
         }
     }
 }

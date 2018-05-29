@@ -1,18 +1,23 @@
 package com.tifone.mfrv.pullload;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.tifone.mfrv.pullload.adapter.WrapHeaderFooterAdapter;
+import com.tifone.mfrv.pullload.base.BaseViewCreator;
+import com.tifone.mfrv.pullload.creator.DefaultEmptyViewCreator;
 
 public class WrapRecyclerView extends RecyclerView {
     private WrapHeaderFooterAdapter mWrapAdapter;
     private Adapter mContentAdapter;
     private static final String TAG = "tifone";
+    private BaseViewCreator mEmptyViewCreator;
 
     public WrapRecyclerView(Context context) {
         this(context, null);
@@ -27,6 +32,7 @@ public class WrapRecyclerView extends RecyclerView {
         init();
     }
     private void init() {
+
     }
 
     @Override
@@ -42,6 +48,7 @@ public class WrapRecyclerView extends RecyclerView {
         }
         super.setAdapter(mWrapAdapter);
         mWrapAdapter.adjustSpanSize(this);
+        setEmptyViewCreator(new DefaultEmptyViewCreator());
     }
     public void addHeaderView(View view) {
         if (mWrapAdapter == null) {
@@ -71,5 +78,11 @@ public class WrapRecyclerView extends RecyclerView {
         }
         return mWrapAdapter.removeFooter(view);
     }
-
+    public void setEmptyViewCreator(@NonNull BaseViewCreator creator) {
+        mEmptyViewCreator = creator;
+        ViewGroup parent = (ViewGroup) getParent();
+        View emptyView = mEmptyViewCreator.getView(getContext(), this);
+        parent.addView(emptyView);
+        mWrapAdapter.setEmptyView(emptyView);
+    }
 }

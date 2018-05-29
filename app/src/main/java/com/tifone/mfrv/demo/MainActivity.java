@@ -31,33 +31,19 @@ public class MainActivity extends AppCompatActivity {
 
         mTestDataSet = new ArrayList<>();
         mInflater = LayoutInflater.from(this);
-        mTestDataSet.add("abc");
-        mTestDataSet.add("111");
-        mTestDataSet.add("abc");
-        mTestDataSet.add("111");
-        mTestDataSet.add("abc");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
-        mTestDataSet.add("222");
+        for (int i = 0; i < 10; i++) {
+            mTestDataSet.add("Index " + i);
+        }
 
         mTestDataSet2 = new ArrayList<>();
-        mTestDataSet2.add("123");
-        mTestDataSet2.add("fg");
-        mTestDataSet2.add("abc");
-        mTestDataSet2.add("357");
-        mTestDataSet2.add("abc");
-        mTestDataSet2.add("867");
+        for (int i = 0; i < 10; i++) {
+            mTestDataSet2.add("Index : " + i);
+        }
         //setupHeaderFooterRecyclerView();
-        //setupPullLoadRecyclerView();
-        setupOriginRecyclerView();
+        setupPullLoadRecyclerView();
+        //setupOriginRecyclerView();
     }
+
     private void setupHeaderFooterRecyclerView() {
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -71,13 +57,14 @@ public class MainActivity extends AppCompatActivity {
         wrapAdapter.addFooterView(footer);
         mRecyclerView.setAdapter(wrapAdapter);
     }
+
     private void setupPullLoadRecyclerView() {
         setContentView(R.layout.activity_main_pull_load);
 
         mPullLoadRecyclerView = findViewById(R.id.pull_load_recycler_view);
         mPullLoadRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         final MyMultiItemAdapter adapter = new MyMultiItemAdapter(this);
-        adapter.setDataSet(mTestDataSet);
+        //adapter.setDataSet(mTestDataSet);
         mPullLoadRecyclerView.setAdapter(adapter);
 //        mPullLoadRecyclerView.setLoadMoreBehavior(PullLoadRecyclerView.LOAD_BEHAVIOR_STYLE_NORMAL);
         mPullLoadRecyclerView.setOnLoadListener(new PullLoadRecyclerView.OnLoadListener() {
@@ -89,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         mPullLoadRecyclerView.notifyLoadComplete();
                         adapter.addDataSet(mTestDataSet2);
                     }
-                },2000);
+                }, 2000);
             }
         });
         mPullLoadRecyclerView.setOnRefreshListener(new PullLoadRecyclerView.OnRefreshListener() {
@@ -116,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
         //adapter.setDataSet(mTestDataSet);
         recyclerView.setAdapter(adapter);
     }
+
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         List<String> mDataSet;
+
         private MyAdapter(List<String> dataSet) {
             mDataSet = dataSet;
         }
@@ -147,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             private TextView textView;
+
             public MyViewHolder(View itemView) {
                 super(itemView);
                 textView = itemView.findViewById(R.id.title);
