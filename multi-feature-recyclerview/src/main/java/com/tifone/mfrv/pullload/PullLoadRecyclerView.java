@@ -365,8 +365,8 @@ public class PullLoadRecyclerView extends WrapRecyclerView {
             case LOAD_STATE_PULL_UP_LOAD:
                 break;
             case LOAD_STATE_LOADING:
-                doLoadMoreAnimator(mLoadMoreView.getLayoutParams().height, mLoadMoreViewHeight);
                 mLoadMoreCreator.onLoading();
+                doLoadMoreAnimator(mLoadMoreView.getLayoutParams().height, mLoadMoreViewHeight);
                 if (isNotNull(mLoadListener)) {
                     mLoadListener.onLoadStarted();
                 }
@@ -557,7 +557,7 @@ public class PullLoadRecyclerView extends WrapRecyclerView {
         // 获取Load more view的实际高度，只有当View加到RecyclerView中才能得到正确的值
         initLoadMoreViewOriginHeight();
         logger("onScrollStateChanged = " + state);
-        if (isDragBehavior() || state != SCROLL_STATE_IDLE) {
+        if (isDragBehavior()) {
             return;
         }
         if (mLoadMoreView.getLayoutParams().height == 0 && isChildrenFullScreen()) {
